@@ -19,8 +19,8 @@ class AppPages {
   static final routes = [
     GetPage(
       name: AppRoutes.login,
-      page: () => PersonalDetailsScreen(),
-      // binding: LoginBinding(),
+      page: () => LoginScreen(),
+       binding: LoginBinding(),
     ),
     GetPage(
       name: AppRoutes.home,

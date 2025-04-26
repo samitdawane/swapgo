@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swapgo/controllers/user_controller.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/controllers/login_controller.dart';
+import 'package:swapgo/data/models/master_json_data.dart';
 import 'package:swapgo/modules/profile_details.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final LoginController controller = Get.put(LoginController());
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       TextFormField(
+                        controller: controller.emailController,
                         decoration: InputDecoration(
                           hintText: 'Email, phone & username',
                           border: OutlineInputBorder(
@@ -151,7 +155,23 @@ class LoginScreen extends StatelessWidget {
                                       ),
                                     ),
                                     //onPressed: () => controller.login(),
-                                    onPressed: () => Get.to(PersonalDetailsScreen()),
+                                    onPressed: () async {
+                                      MasterJSONData? userData = await userController.checkUserlogin(controller.emailController.text,
+                                          controller.passwordController.text);
+
+                                     if(userData?.data != null){
+
+                                       Get.to(PersonalDetailsScreen());
+
+                                     }else{
+                                       print("Mobile Number or Password invalid");
+                                       Get.snackbar('Error', 'Mobile Number or Password invalid', backgroundColor: Colors.red,);
+                                     }
+
+                                    },
+                                    
+                                    
+                                    
                                     child: const Text(
                                       'LOGIN',
                                       style: TextStyle(

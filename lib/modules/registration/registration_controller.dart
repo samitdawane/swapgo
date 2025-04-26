@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:swapgo/data/models/master_json_data.dart';
 import 'package:swapgo/data/repositories/registration_repository.dart';
 import 'package:swapgo/services/connection_manager_controller.dart';
 import 'package:swapgo/utils/app_constants.dart';
-
+import 'package:swapgo/utils/json_bin_service.dart';
 
 
 class RegistrationController extends GetxController {
@@ -12,30 +13,63 @@ class RegistrationController extends GetxController {
   RxString state = "".obs;
   RxString errorMessage = "".obs;
   RxString errorImg = "".obs;
-
+  var masterDataJSON = <MasterJSONData>[].obs;
   RxBool isFirstNameValid = true.obs;
   RxBool isLastNameValid = true.obs;
   RxBool isEmailValid = true.obs;
   RxBool isMobileNoValid = true.obs;
   RxBool isPasswordValid = true.obs;
   String panNumber = "";
+
   //final ConnectionManagerController connController = Get.find<ConnectionManagerController>();
   RegistrationRepository _repository = RegistrationRepository();
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
 
     /*if (Get.arguments != null) {
       panNumber = Get.arguments["String"] as String;
       print("Sent IPO_USER_PAN "+panNumber.toString());
     }*/
+    print('Data uploading started....');
 
-    super.onInit();
+      /*await JsonBinService.updateBin("", {
+        "userlist": [
+          {
+            "id": 1,
+            "username": "samitdawane",
+            "email": "samitdawane@gmail.com",
+            "firstName": "Samit",
+            "lastName": "Dawane",
+            "gender": "female"
+          },
+          {
+            "id": 2,
+            "username": "harshtivari",
+            "email": "harshtivari@gmail.com",
+            "firstName": "Harsh",
+            "lastName": "Tivari",
+            "gender": "Male"
+          }
+        ]
+      });*/
+    //await JSONUtility().uploadJsonFile({"name": "John", "age": 30}, "user_profile");
+    //print('Data uploading done....');
+    //super.onInit();
   }
 
 
 
-  void isValidForm(String fname, String lname, String mobile, String email, String password){
+  Future<void> isValidForm(String fname, String lname, String mobile, String email, String password) async {
+
+    var mDataList = await JsonBinService.readBin("sss");
+
+    masterDataJSON.value = mDataList!
+        .map((cJson) => MasterJSONData.fromJson(cJson))
+        .toList();
+
+    print('>>>>>>>Data lenght: ${masterDataJSON.length}');
+
     bool isValid = true;
 
     if(fname.length<=0){
@@ -63,7 +97,7 @@ class RegistrationController extends GetxController {
         "Email": email,
         "Password": password,
       };
-      callRegistrationAPI(params);
+      //callRegistrationAPI(params);
     }
 
   }
