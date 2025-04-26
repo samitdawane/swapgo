@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_fontStyles.dart';
+import 'package:swapgo/core/common/custom_appbar.dart';
 import 'package:swapgo/data/models/user_model.dart';
 
 class ProfessionSearchScreen extends StatefulWidget {
@@ -27,113 +28,181 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(title: const Text('Search Users by Profession')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: "Enter profession (musician, engineer, doctor)",
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundColor,
+
+        body: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.bottomNavbarColor,
+                // borderRadius: const BorderRadius.only(
+                //   topLeft: Radius.circular(12),
+                //   topRight: Radius.circular(12),
+                // ),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.bottomNavbarColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: "Enter profession (musician, engineer, doctor)",
+                      hintStyle: AppTextStyle.font12Medium(),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: AppColors.textBlackColor,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          color: AppColors.buttonColor,
+                          width: 2.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          color: AppColors.bottomNavbarContainerColor,
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _searchText = value.trim();
+                      });
+                    },
+                  ),
                 ),
               ),
-              onChanged: (value) {
-                setState(() {
-                  _searchText = value.trim();
-                });
-              },
             ),
-          ),
-          Expanded(
-            child:
-                _filteredUsers.isEmpty
-                    ? const Center(
-                      child: Text("No users found. Please search correctly."),
-                    )
-                    : ListView.builder(
-                      itemCount: _filteredUsers.length,
-                      itemBuilder: (context, index) {
-                        final user = _filteredUsers[index];
-                        return Card(
-                          color: AppColors.carColor,
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(user['imageUrl']),
-                            ),
 
-                            title: Text(
-                              user['name'],
-                              style: AppTextStyle.font13Bold(),
+            Expanded(
+              child:
+                  _filteredUsers.isEmpty
+                      ? const Center(
+                        child: Text("No users found. Please search correctly."),
+                      )
+                      : ListView.builder(
+                        itemCount: _filteredUsers.length,
+                        itemBuilder: (context, index) {
+                          final user = _filteredUsers[index];
+                          return Card(
+                            color: AppColors.carColor,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
                             ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 4),
-                                Text(
-                                  "Experience: ${user['experience']}",
-                                  style: AppTextStyle.font14Bold(),
-                                ),
-                                Text(
-                                  "Likes: ${user['numberOfLikes']}",
-                                  style: AppTextStyle.font14Bold(),
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    StarRatingWidget(rating: user['rating']),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      "${user['rating']}",
-                                      style: AppTextStyle.font13Bold(
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // const SizedBox(height: 4),
-                                // Text("Liked: ${user['liked'] ? "Yes" : "No"}"),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "Description: ${user['description']}",
-                                  style: AppTextStyle.font13Medium(),
-                                ),
-                                const SizedBox(height: 4),
-                                InkWell(
-                                  onTap: () {
-                                    // Open LinkedIn URL
-                                  },
-                                  child: Text(
-                                    "LinkedIn Profile",
-                                    style: const TextStyle(
-                                      color: Colors.blue,
-                                      decoration: TextDecoration.underline,
-                                    ),
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 30,
+                                backgroundImage: AssetImage(user['imageUrl']),
+                              ),
+
+                              title: Text(
+                                user['name'],
+                                style: AppTextStyle.font13Bold(),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Experience: ${user['experience']}",
+                                    style: AppTextStyle.font14Bold(),
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    "Likes: ${user['numberOfLikes']}",
+                                    style: AppTextStyle.font14Bold(),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      StarRatingWidget(rating: user['rating']),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        "${user['rating']}",
+                                        style: AppTextStyle.font13Bold(
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  // const SizedBox(height: 4),
+                                  // Text("Liked: ${user['liked'] ? "Yes" : "No"}"),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Description: ${user['description']}",
+                                    style: AppTextStyle.font13Medium(),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          // Open LinkedIn URL
+                                        },
+                                        child: Text(
+                                          "LinkedIn Profile",
+                                          style: const TextStyle(
+                                            color: Colors.blue,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      SizedBox(
+                                        width: 120,
+                                        height: 30,
+                                        child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            "Swap",
+                                            style: TextStyle(
+                                              fontWeight:
+                                                  FontWeight
+                                                      .bold, // Make the text bold
+                                              color:
+                                                  Colors
+                                                      .white, // Set text color to white for contrast
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              isThreeLine: true,
                             ),
-                            isThreeLine: true,
-                          ),
-                        );
-                      },
-                    ),
-          ),
-        ],
+                          );
+                        },
+                      ),
+            ),
+          ],
+        ),
       ),
     );
   }
