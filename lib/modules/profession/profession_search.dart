@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swapgo/core/common/app_colors.dart';
+import 'package:swapgo/core/common/app_fontStyles.dart';
 import 'package:swapgo/data/models/user_model.dart';
 
 class ProfessionSearchScreen extends StatefulWidget {
@@ -27,6 +28,7 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(title: const Text('Search Users by Profession')),
       body: Column(
         children: [
@@ -59,6 +61,7 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                       itemBuilder: (context, index) {
                         final user = _filteredUsers[index];
                         return Card(
+                          color: AppColors.carColor,
                           margin: const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 8,
@@ -69,23 +72,22 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                           ),
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                user['imageUrl'] ?? "",
-                              ),
                               radius: 30,
+                              backgroundImage: AssetImage(user['imageUrl']),
                             ),
+
                             title: Text(
                               user['name'],
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: AppTextStyle.font17Bold(),
                             ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 4),
-                                Text("Experience: ${user['experience']}"),
+                                Text(
+                                  "Experience: ${user['experience']}",
+                                  style: AppTextStyle.font14Bold(),
+                                ),
                                 Text("Likes: ${user['numberOfLikes']}"),
                                 const SizedBox(height: 4),
                                 Row(
@@ -148,9 +150,11 @@ class StarRatingWidget extends StatelessWidget {
 
     for (int i = 0; i < starCount; i++) {
       if (i < rating.floor()) {
-        stars.add(Icon(Icons.star, color: filledStarColor, size: size));
+        stars.add(Icon(Icons.star, color: AppColors.starcolor, size: size));
       } else if (i < rating) {
-        stars.add(Icon(Icons.star_half, color: filledStarColor, size: size));
+        stars.add(
+          Icon(Icons.star_half, color: AppColors.starcolor, size: size),
+        );
       } else {
         stars.add(
           Icon(Icons.star_border, color: unfilledStarColor, size: size),

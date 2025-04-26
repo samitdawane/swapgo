@@ -11,4 +11,6 @@ class AppColors {
   static const textRedColor = Color(0xFFFF0000);
   static const checkboxActiveColor = Color(0xFFFFC107);
   static const dividerColor = Color(0xFFBDBDBD);
+  static const carColor = Color(0xFFFFD95A);
+  static const starcolor = Color(0xFFFF5823);
 }
