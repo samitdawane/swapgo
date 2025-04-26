@@ -133,6 +133,7 @@ class ProfileDetailsController extends GetxController {
       workLinkController.text.contains('@')
           ? workLinkError.value = null
           : workLinkError.value = "Invalid URL";
+      isValid = false;
     }
 
     return isValid;

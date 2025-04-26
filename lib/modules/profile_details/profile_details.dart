@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swapgo/controllers/personal_details_controller.dart';
+import 'package:swapgo/core/controllers/personal_details_controller.dart';
 import 'package:swapgo/core/common/app_button.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_dropdown.dart';
 import 'package:swapgo/core/common/app_fontStyles.dart';
 import 'package:swapgo/core/common/app_textfield.dart';
+import 'package:swapgo/modules/profile_details/profile_icon.dart';
 
 class PersonalDetailsScreen extends StatelessWidget {
   final ProfileDetailsController controller = Get.put(
@@ -142,7 +143,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                               controller.achievementsController.text,
                         };
                         if (controller.validateFields()) {
-                          // Get.to(pageName, arguments: data);
+                          Get.to(() => ProfileImageSetter(arguements: data));
                         }
                       },
                     ),

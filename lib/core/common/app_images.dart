@@ -1,4 +1,8 @@
 class AppImages {
-  static const String logo =
-      'assets/images/logo.png'; // no such images as of now
+  static const String avatar1 = 'assets/profile_avatar/avatar1.jpeg';
+  static const String avatar2 = 'assets/profile_avatar/avatar2.jpeg';
+  static const String avatar3 = 'assets/profile_avatar/avatar3.jpeg';
+  static const String avatar4 = 'assets/profile_avatar/avatar4.jpeg';
+  static const String avatar5 = 'assets/profile_avatar/avatar5.jpeg';
+  static const String avatar6 = 'assets/profile_avatar/avatar6.jpeg';
 }
