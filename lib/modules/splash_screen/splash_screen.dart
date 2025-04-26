@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_images.dart';
@@ -20,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 1));
     Get.offAllNamed(AppRoutes.login);
   }
 
@@ -29,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Center(
-        child: SvgPicture.asset(AppImages.splashImage, fit: BoxFit.fitHeight),
+        child: Image.asset(AppImages.splashImage, fit: BoxFit.cover),
       ),
     );
   }
