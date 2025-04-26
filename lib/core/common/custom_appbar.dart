@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 
-class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final VoidCallback? onSearchTap;
   final VoidCallback? onCrownTap;
 
-  const CommonAppBar({Key? key, this.title, this.onSearchTap, this.onCrownTap})
+  const CustomAppBar({Key? key, this.title, this.onSearchTap, this.onCrownTap})
     : super(key: key);
 
   @override

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_fontStyles.dart';
 import 'package:swapgo/core/common/custom_appbar.dart';
+import 'package:swapgo/modules/profession/profession_search.dart';
 // import navbar
 
 class HomeScreen extends StatefulWidget {
@@ -19,9 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(
+      appBar: CustomAppBar(
         onSearchTap: () {
-          // Get.to(() => const ProfessionSearchScreen());
+          Get.to(() => const ProfessionSearchScreen());
         },
       ),
       backgroundColor: AppColors.backgroundColor,
