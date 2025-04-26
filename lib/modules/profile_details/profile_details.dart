@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:swapgo/controllers/personal_details_controller.dart';
+import 'package:swapgo/core/controllers/personal_details_controller.dart';
 import 'package:swapgo/core/common/app_button.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_dropdown.dart';
