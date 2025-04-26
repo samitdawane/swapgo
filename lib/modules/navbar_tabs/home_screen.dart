@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:swapgo/core/common/app_bottom_bar.dart';
+import 'package:get/get.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_fontStyles.dart';
+import 'package:swapgo/core/common/custom_appbar.dart';
 // import navbar
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +19,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CommonAppBar(
+        onSearchTap: () {
+          // Get.to(() => const ProfessionSearchScreen());
+        },
+      ),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -153,14 +159,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: selectedIndex,
-        onItemTapped: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
       ),
     );
   }
