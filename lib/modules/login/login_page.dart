@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/controllers/login_controller.dart';
+import 'package:swapgo/modules/profile_details.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -70,6 +71,7 @@ class LoginScreen extends StatelessWidget {
                           }
                           return null;
                         },
+                        
                         onSaved:
                             (value) => controller.loginModel.update((model) {
                               model?.email = value ?? '';
@@ -148,7 +150,8 @@ class LoginScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
-                                    onPressed: () => controller.login(),
+                                    //onPressed: () => controller.login(),
+                                    onPressed: () => Get.to(PersonalDetailsScreen()),
                                     child: const Text(
                                       'LOGIN',
                                       style: TextStyle(
