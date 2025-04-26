@@ -4,7 +4,7 @@ import 'package:swapgo/core/common/app_fontStyles.dart';
 import 'package:swapgo/data/models/user_model.dart';
 
 class ProfessionSearchScreen extends StatefulWidget {
-  const ProfessionSearchScreen({Key? key}) : super(key: key);
+  const ProfessionSearchScreen({super.key});
 
   @override
   State<ProfessionSearchScreen> createState() => _ProfessionSearchScreenState();
@@ -136,13 +136,13 @@ class StarRatingWidget extends StatelessWidget {
   final double size;
 
   const StarRatingWidget({
-    Key? key,
+    super.key,
     required this.rating,
     this.starCount = 5,
     this.filledStarColor = Colors.amber,
     this.unfilledStarColor = Colors.grey,
     this.size = 20.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

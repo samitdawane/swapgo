@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'GetX MVP App',
-      initialRoute: AppRoutes.proffesionSearch,
+      initialRoute: AppRoutes.login,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
     );
