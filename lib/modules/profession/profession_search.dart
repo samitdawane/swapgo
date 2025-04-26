@@ -78,7 +78,7 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
 
                             title: Text(
                               user['name'],
-                              style: AppTextStyle.font17Bold(),
+                              style: AppTextStyle.font13Bold(),
                             ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,19 +88,30 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                                   "Experience: ${user['experience']}",
                                   style: AppTextStyle.font14Bold(),
                                 ),
-                                Text("Likes: ${user['numberOfLikes']}"),
+                                Text(
+                                  "Likes: ${user['numberOfLikes']}",
+                                  style: AppTextStyle.font14Bold(),
+                                ),
                                 const SizedBox(height: 4),
                                 Row(
                                   children: [
                                     StarRatingWidget(rating: user['rating']),
                                     const SizedBox(width: 8),
-                                    Text("${user['rating']}"),
+                                    Text(
+                                      "${user['rating']}",
+                                      style: AppTextStyle.font13Bold(
+                                        color: Colors.green,
+                                      ),
+                                    ),
                                   ],
                                 ),
+                                // const SizedBox(height: 4),
+                                // Text("Liked: ${user['liked'] ? "Yes" : "No"}"),
                                 const SizedBox(height: 4),
-                                Text("Liked: ${user['liked'] ? "Yes" : "No"}"),
-                                const SizedBox(height: 4),
-                                Text("Description: ${user['description']}"),
+                                Text(
+                                  "Description: ${user['description']}",
+                                  style: AppTextStyle.font13Medium(),
+                                ),
                                 const SizedBox(height: 4),
                                 InkWell(
                                   onTap: () {
