@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        title: "HOME",
         onSearchTap: () {
           Get.to(() => const ProfessionSearchScreen());
         },

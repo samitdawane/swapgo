@@ -15,4 +15,5 @@ class AppColors {
   static const starcolor = Color(0xFFFF5823);
   static const bottomNavbarColor = Color(0xFFB89653);
   static const bottomNavbarContainerColor = Color(0xFFFFD95A);
+  static const greenColor = Color(0xFF18A800);
 }
