@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:swapgo/core/routes/app_pages.dart';
 import 'package:swapgo/core/routes/app_routes.dart';
-import 'package:swapgo/modules/posts/home_page.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,5 +17,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
