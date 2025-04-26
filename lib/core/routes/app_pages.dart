@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:swapgo/core/bindings/home_binding.dart';
+import 'package:swapgo/core/bindings/skill_binding.dart';
 import 'package:swapgo/modules/posts/home_page.dart';
 import 'package:swapgo/modules/profile_details.dart';
+import 'package:swapgo/modules/skills/skills_show.dart';
 
 import 'app_routes.dart';
 
