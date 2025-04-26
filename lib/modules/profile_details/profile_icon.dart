@@ -5,9 +5,10 @@ import 'package:swapgo/core/common/app_button.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_fontStyles.dart';
 import 'package:swapgo/core/common/app_images.dart';
+import 'package:swapgo/core/common/main_screen.dart';
 
 import 'package:swapgo/core/controllers/avatar_controller.dart';
-import 'package:swapgo/modules/home/home_screen.dart';
+import 'package:swapgo/modules/navbar_tabs/home_screen.dart';
 import 'package:swapgo/modules/posts/home_page.dart'; // Import your controller
 
 class ProfileImageSetter extends StatelessWidget {
@@ -165,7 +166,7 @@ class ProfileImageSetter extends StatelessWidget {
                         "interests": controller.selectedInterests.toList(),
                       };
 
-                      Get.to(() => HomeScreen(arguements: payload));
+                      Get.to(() => MainScreen());
                     } else {
                       Get.snackbar(
                         'Error',

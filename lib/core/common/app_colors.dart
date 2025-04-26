@@ -13,4 +13,6 @@ class AppColors {
   static const dividerColor = Color(0xFFBDBDBD);
   static const carColor = Color(0xFFFFD95A);
   static const starcolor = Color(0xFFFF5823);
+  static const bottomNavbarColor = Color(0xFFB89653);
+  static const bottomNavbarContainerColor = Color(0xFFFFD95A);
 }

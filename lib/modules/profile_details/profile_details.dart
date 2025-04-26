@@ -142,9 +142,9 @@ class PersonalDetailsScreen extends StatelessWidget {
                           "achievements":
                               controller.achievementsController.text,
                         };
-                        if (controller.validateFields()) {
-                          Get.to(() => ProfileImageSetter(arguements: data));
-                        }
+                        // if (controller.validateFields()) {
+                        Get.to(() => ProfileImageSetter(arguements: data));
+                        // }
                       },
                     ),
                   ],
