@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swapgo/controllers/user_controller.dart';
 import 'package:swapgo/core/common/app_colors.dart';
+import 'package:swapgo/core/common/main_screen.dart';
 import 'package:swapgo/core/controllers/login_controller.dart';
 import 'package:swapgo/data/models/master_json_data.dart';
 import 'package:swapgo/modules/profile_details/profile_details.dart';
@@ -161,7 +162,7 @@ class LoginScreen extends StatelessWidget {
 
                               if(userData?.data != null){
 
-                                Get.to(PersonalDetailsScreen());
+                                Get.to(MainScreen(),arguments: userData?.data);
 
                               }else{
                                 print("Mobile Number or Password invalid");
