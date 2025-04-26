@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'GetX MVP App',
       initialRoute: AppRoutes.login,
       getPages: AppPages.routes,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
