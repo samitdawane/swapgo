@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:swapgo/core/bindings/home_binding.dart';
+import 'package:swapgo/core/bindings/login_binding.dart';
 import 'package:swapgo/core/bindings/registration_binding.dart';
 import 'package:swapgo/core/bindings/skill_binding.dart';
+import 'package:swapgo/modules/login/login_page.dart';
 import 'package:swapgo/modules/posts/home_page.dart';
 import 'package:swapgo/modules/profession/profession_search.dart';
 // import 'package:swapgo/modules/profile_details.dart';
@@ -21,8 +23,8 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.login,
-      page: () => PersonalDetailsScreen(),
-      // binding: LoginBinding(),
+      page: () => LoginScreen(),
+       binding: LoginBinding(),
     ),
     GetPage(
       name: AppRoutes.home,

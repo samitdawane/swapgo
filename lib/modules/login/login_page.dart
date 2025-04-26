@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swapgo/controllers/user_controller.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/controllers/login_controller.dart';
+import 'package:swapgo/data/models/master_json_data.dart';
 import 'package:swapgo/modules/profile_details/profile_details.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final LoginController controller = Get.put(LoginController());
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       TextFormField(
+                        controller: controller.emailController,
                         decoration: InputDecoration(
                           hintText: 'Email, phone & username',
                           border: OutlineInputBorder(
@@ -74,8 +78,8 @@ class LoginScreen extends StatelessWidget {
 
                         onSaved:
                             (value) => controller.loginModel.update((model) {
-                              model?.email = value ?? '';
-                            }),
+                          model?.email = value ?? '';
+                        }),
                       ),
                       const SizedBox(height: 20),
                       const Text(
@@ -84,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Obx(
-                        () => TextField(
+                            () => TextField(
                           controller: controller.passwordController,
                           obscureText: !controller.isPasswordVisible.value,
                           decoration: InputDecoration(
@@ -106,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         children: [
                           Obx(
-                            () => Checkbox(
+                                () => Checkbox(
                               value: controller.rememberPassword.value,
                               activeColor: AppColors.checkboxActiveColor,
                               onChanged: (value) {
@@ -131,38 +135,53 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Obx(
-                        () =>
-                            controller.isLoading.value
-                                ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                                : SizedBox(
-                                  width: double.infinity,
-                                  height: 50,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          AppColors
-                                              .primaryColor, // Button background
-                                      foregroundColor:
-                                          Colors.white, // Text/Icon color
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    //onPressed: () => controller.login(),
-                                    onPressed:
-                                        () => Get.to(PersonalDetailsScreen()),
-                                    child: const Text(
-                                      'LOGIN',
-                                      style: TextStyle(
-                                        color:
-                                            Colors
-                                                .white, // (extra safe - you can also remove this because foregroundColor already handles it)
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                            () =>
+                        controller.isLoading.value
+                            ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                            : SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                              AppColors
+                                  .primaryColor, // Button background
+                              foregroundColor:
+                              Colors.white, // Text/Icon color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            //onPressed: () => controller.login(),
+                            onPressed: () async {
+                              MasterJSONData? userData = await userController.checkUserlogin(controller.emailController.text,
+                                  controller.passwordController.text);
+
+                              if(userData?.data != null){
+
+                                Get.to(PersonalDetailsScreen());
+
+                              }else{
+                                print("Mobile Number or Password invalid");
+                                Get.snackbar('Error', 'Mobile Number or Password invalid', backgroundColor: Colors.red,);
+                              }
+
+                            },
+
+
+
+                            child: const Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                color:
+                                Colors
+                                    .white, // (extra safe - you can also remove this because foregroundColor already handles it)
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       Row(
