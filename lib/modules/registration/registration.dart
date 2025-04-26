@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/modules/login/login_page.dart';
 import 'package:swapgo/modules/registration/registration_controller.dart';
 import 'package:swapgo/utils/app_constants.dart';
@@ -21,7 +22,7 @@ class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 45.0,left: 15,right: 15),
@@ -136,7 +137,7 @@ class RegistrationScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black, // button color
+                      backgroundColor: AppColors.primaryColor, // button color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12), // rounded corners
                       ),
@@ -168,6 +169,8 @@ class RegistrationScreen extends StatelessWidget {
                         ),
                       ),Text('Login ',
                         style: TextStyle(
+                          color: AppColors.primaryColor,
+
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
                         ),
