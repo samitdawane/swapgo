@@ -7,8 +7,8 @@ import 'package:swapgo/modules/navbar_tabs/send_tab_screen.dart';
 
 class ReceivedTab extends StatelessWidget {
   final List<SkillCard> skills;
-
-  const ReceivedTab({super.key, required this.skills});
+  bool? isFav;
+  ReceivedTab({super.key, required this.skills, this.isFav});
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +112,7 @@ class ReceivedTab extends StatelessWidget {
 
                 // Accept Swap Button
                 AppButton(
-                  text: 'ACCEPT',
+                  text: isFav ?? false ? 'Connect' : 'ACCEPT',
                   backgroundColor: AppColors.greenColor,
                   verticalPadding: 10,
                   onPressed: () {},
