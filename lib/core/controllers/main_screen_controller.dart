@@ -9,14 +9,15 @@ import 'package:swapgo/modules/navbar_tabs/swap_screen.dart';
 class MainScreenController extends GetxController {
   // Selected index for BottomNavigationBar
   var selectedIndex = 0.obs;
-  //Rxn<MasterJSONData> userData =
+  var userData = MasterJSONData().obs;
+
 
 
   // List of pages for navigation
-  final List<Widget> pages = const [
-    HomeScreen(),
-    FavouriteScreen(),
-    SwapScreen(),
+  final List<Widget> pages = [
+    const HomeScreen(),
+    const FavouriteScreen(),
+    const SwapScreen(),
     ProfileScreen(),
   ];
 

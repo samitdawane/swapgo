@@ -160,9 +160,10 @@ class LoginScreen extends StatelessWidget {
                               MasterJSONData? userData = await userController.checkUserlogin(controller.emailController.text,
                                   controller.passwordController.text);
 
+                              userController.getInterest();
                               if(userData?.data != null){
 
-                                Get.to(MainScreen(),arguments: userData?.data);
+                                Get.to(MainScreen(),arguments: userData );
 
                               }else{
                                 print("Mobile Number or Password invalid");

@@ -18,8 +18,10 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Initialize the controller
     MasterJSONData user = Get.arguments;
+
     final MainScreenController controller = Get.put(MainScreenController());
 
+    controller.userData.value = user;
     return Scaffold(
       body: Obx(() {
         return controller.pages[controller.selectedIndex.value];

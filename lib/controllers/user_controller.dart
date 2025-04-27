@@ -6,9 +6,19 @@ import 'package:swapgo/utils/json_bin_service.dart';
 class UserController extends GetxController {
   RxList<MasterJSONData> user = RxList<MasterJSONData>();
   var masterDataJSON = <MasterJSONData>[].obs;
+  var loginUserData = MasterJSONData().obs;
+
 
   void setUser(List<MasterJSONData> masterJSONData) {
     user.value = masterJSONData;
+  }
+
+  getInterest(){
+    String allInterest = masterDataJSON.value.fold('', (previousValue, user) {
+      return previousValue + (previousValue.isEmpty ? '' : ', ') + user.data!.avatarwithinterest![0].interest!;
+    });
+
+    print('Allll allInterest'+allInterest);
   }
 
   Future<void> getUserFromBin() async {
@@ -37,6 +47,7 @@ class UserController extends GetxController {
 
         if (user.data!.mobileNo == mobileNo && user.data!.password == password) {
           userData = user;
+          loginUserData.value = user;
           print('>>>>>>>Return data:${user.data}');
           break;
 
