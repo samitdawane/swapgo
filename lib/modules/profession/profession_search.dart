@@ -8,6 +8,7 @@ import 'package:swapgo/core/common/custom_appbar.dart';
 import 'package:swapgo/core/controllers/main_screen_controller.dart';
 import 'package:swapgo/data/models/master_json_data.dart';
 import 'package:swapgo/modules/navbar_tabs/profile_screen.dart';
+import 'package:swapgo/modules/navbar_tabs/swap_screen.dart';
 
 class ProfessionSearchScreen extends StatefulWidget {
   const ProfessionSearchScreen({super.key});
@@ -472,59 +473,74 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                                                                 child: ElevatedButton(
                                                                   onPressed: () {
                                                                     List<
-                                                                      Map<
-                                                                        String,
-                                                                        dynamic
-                                                                      >
+                                                                      Transferdetails
                                                                     >
-                                                                    transferDetails = [
-                                                                      user['id'],
-                                                                      {
-                                                                        'usertype':
+                                                                    transferdetails = [
+                                                                      Transferdetails(
+                                                                        requestaccaptance:
+                                                                            "1",
+                                                                        coinsspent:
+                                                                            "1",
+                                                                        isuser1xfer:
+                                                                            "1",
+                                                                        isuser2xfer:
+                                                                            "1",
+                                                                        usertype:
                                                                             "Sender",
-                                                                        'swaptype':
+                                                                        swaptype:
                                                                             selectedOption ==
                                                                                     "Knowledge Transfer"
                                                                                 ? "1"
                                                                                 : "2",
-                                                                        'swapbuddyid':
-                                                                            user['id'],
-                                                                        'selectedDateTime':
-                                                                            selectedDateTime?.toIso8601String(), // save date properly
-                                                                      },
-                                                                      {
-                                                                        'usertype':
+                                                                        swapbuddyid:
+                                                                            user['id'].toString(),
+                                                                        schaduledate:
+                                                                            selectedDateTime?.toIso8601String(),
+                                                                      ),
+                                                                      Transferdetails(
+                                                                        requestaccaptance:
+                                                                            "1",
+                                                                        coinsspent:
+                                                                            "1",
+                                                                        isuser1xfer:
+                                                                            "1",
+                                                                        isuser2xfer:
+                                                                            "1",
+                                                                        usertype:
                                                                             "Receiver",
-                                                                        'swaptype':
+                                                                        swaptype:
                                                                             selectedOption ==
                                                                                     "Knowledge Transfer"
                                                                                 ? "1"
                                                                                 : "2",
-                                                                        'swapbuddyid':
-                                                                            "7",
-                                                                        'selectedDateTime':
-                                                                            selectedDateTime?.toIso8601String(), // save date properly
-                                                                      },
+                                                                        swapbuddyid:
+                                                                            "6",
+                                                                        schaduledate:
+                                                                            selectedDateTime?.toIso8601String(),
+                                                                      ),
                                                                     ];
-
-                                                                    // Transferdetails(usertype: "",swaptype: "",swapbuddyid: "" ,schaduledate: selectedDateTime?.toIso8601String());
+                                                                    userController.createMasterDataToSave(
+                                                                      transferdetails,
+                                                                      user['id'],
+                                                                    );
                                                                     Navigator.pop(
                                                                       context,
                                                                     );
                                                                     // Pass the data to next screen if you want
                                                                     Get.to(
                                                                       () =>
-                                                                          ProfileScreen(),
-                                                                      arguments: {
-                                                                        'userId':
-                                                                            user['id'],
-                                                                        'option':
-                                                                            selectedOption,
-                                                                        'skill':
-                                                                            selectedSkill,
-                                                                        'dateTime':
-                                                                            selectedDateTime.toString(),
-                                                                      },
+                                                                          SwapScreen(),
+                                                                      //     ProfileScreen(),
+                                                                      // arguments: {
+                                                                      //   'userId':
+                                                                      //       user['id'],
+                                                                      //   'option':
+                                                                      //       selectedOption,
+                                                                      //   'skill':
+                                                                      //       selectedSkill,
+                                                                      //   'dateTime':
+                                                                      //       selectedDateTime.toString(),
+                                                                      // },
                                                                     );
                                                                   },
                                                                   style: ElevatedButton.styleFrom(
