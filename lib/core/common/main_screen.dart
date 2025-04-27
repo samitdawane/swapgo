@@ -16,6 +16,7 @@ class MainScreen extends StatelessWidget {
       MainScreenController(user ?? Data()),
     );
 
+    // controller.userData.value = user;
     return Scaffold(
       body: Obx(() {
         return controller.pages[controller.selectedIndex.value];
