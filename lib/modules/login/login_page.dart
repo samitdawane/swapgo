@@ -79,8 +79,8 @@ class LoginScreen extends StatelessWidget {
 
                         onSaved:
                             (value) => controller.loginModel.update((model) {
-                          model?.email = value ?? '';
-                        }),
+                              model?.email = value ?? '';
+                            }),
                       ),
                       const SizedBox(height: 20),
                       const Text(
@@ -89,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Obx(
-                            () => TextField(
+                        () => TextField(
                           controller: controller.passwordController,
                           obscureText: !controller.isPasswordVisible.value,
                           decoration: InputDecoration(
@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         children: [
                           Obx(
-                                () => Checkbox(
+                            () => Checkbox(
                               value: controller.rememberPassword.value,
                               activeColor: AppColors.checkboxActiveColor,
                               onChanged: (value) {
@@ -136,53 +136,60 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Obx(
-                            () =>
-                        controller.isLoading.value
-                            ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                            : SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                              AppColors
-                                  .primaryColor, // Button background
-                              foregroundColor:
-                              Colors.white, // Text/Icon color
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            //onPressed: () => controller.login(),
-                            onPressed: () async {
-                              MasterJSONData? userData = await userController.checkUserlogin(controller.emailController.text,
-                                  controller.passwordController.text);
+                        () =>
+                            controller.isLoading.value
+                                ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                                : SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          AppColors
+                                              .primaryColor, // Button background
+                                      foregroundColor:
+                                          Colors.white, // Text/Icon color
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    //onPressed: () => controller.login(),
+                                    onPressed: () async {
+                                      MasterJSONData? userData =
+                                          await userController.checkUserlogin(
+                                            controller.emailController.text,
+                                            controller.passwordController.text,
+                                          );
 
-                              if(userData?.data != null){
+                                      if (userData?.data != null) {
+                                        Get.offAll(
+                                          MainScreen(),
+                                          arguments: userData?.data,
+                                        );
+                                      } else {
+                                        print(
+                                          "Mobile Number or Password invalid",
+                                        );
+                                        Get.snackbar(
+                                          'Error',
+                                          'Mobile Number or Password invalid',
+                                          backgroundColor: Colors.red,
+                                        );
+                                      }
+                                    },
 
-                                Get.to(MainScreen(),arguments: userData?.data);
-
-                              }else{
-                                print("Mobile Number or Password invalid");
-                                Get.snackbar('Error', 'Mobile Number or Password invalid', backgroundColor: Colors.red,);
-                              }
-
-                            },
-
-
-
-                            child: const Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                color:
-                                Colors
-                                    .white, // (extra safe - you can also remove this because foregroundColor already handles it)
-                              ),
-                            ),
-                          ),
-                        ),
+                                    child: const Text(
+                                      'LOGIN',
+                                      style: TextStyle(
+                                        color:
+                                            Colors
+                                                .white, // (extra safe - you can also remove this because foregroundColor already handles it)
+                                      ),
+                                    ),
+                                  ),
+                                ),
                       ),
                       const SizedBox(height: 20),
                       Row(

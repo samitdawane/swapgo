@@ -20,6 +20,21 @@ class UserController extends GetxController {
     print('>>>>>>>Data lenght: ${masterDataJSON.length}');
   }
 
+  getInterest() {
+    String interest = '';
+    String name = '';
+    String rating = '';
+    String description = '';
+    String imageLink = '';
+    for (var user in masterDataJSON.value) {
+      interest = user.data!.avatarwithinterest?[0].interest ?? '';
+      name = user.data!.fname ?? '';
+      rating = user.data!.reviewandrating?[0].rating ?? '';
+      description = user.data!.personaldetails?[0].description ?? '';
+      imageLink = user.data!.avatarwithinterest?[0].imgLink ?? '';
+    }
+  }
+
   Future<MasterJSONData?> checkUserlogin(
     String mobileNo,
     String password,

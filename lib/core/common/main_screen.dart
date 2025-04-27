@@ -11,8 +11,10 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Initialize the controller
-    Data user = Get.arguments;
-    final MainScreenController controller = Get.put(MainScreenController(user));
+    Data? user = Get.arguments;
+    final MainScreenController controller = Get.put(
+      MainScreenController(user ?? Data()),
+    );
 
     return Scaffold(
       body: Obx(() {
