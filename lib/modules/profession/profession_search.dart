@@ -461,10 +461,38 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                                                                         .infinity,
                                                                 child: ElevatedButton(
                                                                   onPressed: () {
-                                                                    List<
-                                                                      Transferdetails
-                                                                    >
-                                                                    transferdetails = [
+
+                                                                    List<Transferdetails> tdList = [];
+
+                                                                    Transferdetails td = Transferdetails();
+                                                                    td.usertype = "Sender";
+                                                                    td.swaptype = selectedOption == "Knowledge Transfer" ? "1" : "2";
+                                                                    td.swapbuddyid = user['id'].toString();
+                                                                    td.schaduledate = "";
+                                                                    td.requestaccaptance = "1";
+                                                                    td.isuser1xfer = "1";
+                                                                    td.isuser2xfer = "1";
+                                                                    td.coinsspent = "1";
+                                                                    tdList.add(td);
+
+                                                                    td = Transferdetails();
+                                                                    td.usertype = "Receiver";
+                                                                    td.swaptype =  selectedOption =="Knowledge Transfer"? "1": "2";
+                                                                    td.swapbuddyid = "6";
+                                                                    td.schaduledate = "";
+                                                                    td.requestaccaptance = "1";
+                                                                    td.isuser1xfer = "1";
+                                                                    td.isuser2xfer = "1";
+                                                                    td.coinsspent = "0";
+                                                                    tdList.add(td);
+                                                                    userController.uploadListOnServer(tdList,6);
+
+
+
+
+
+
+                                                                    /*List<Transferdetails>transferdetails = [
                                                                       Transferdetails(
                                                                         requestaccaptance:
                                                                             "1",
@@ -507,9 +535,9 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                                                                         schaduledate:
                                                                             selectedDateTime?.toIso8601String(),
                                                                       ),
-                                                                    ];
+                                                                    ];*/
                                                                     userController.createMasterDataToSave(
-                                                                      transferdetails,
+                                                                      tdList,
                                                                       user['id'],
                                                                     );
                                                                     Navigator.pop(

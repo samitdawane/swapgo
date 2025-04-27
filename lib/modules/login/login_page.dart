@@ -41,14 +41,40 @@ class LoginScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 10),
-                      const Text(
-                        'Hi ,Welcome Back! 👋',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textBlackColor,
-                        ),
-                      ),
+                       GestureDetector(
+                         onTap: (){
+                           List<Transferdetails> tdList = [];
+                           Transferdetails td = Transferdetails();
+                           td.usertype = "Sender";
+                           td.swaptype = "10";
+                           td.swapbuddyid = "2";
+                           td.schaduledate = "";
+                           td.requestaccaptance = "1";
+                           td.isuser1xfer = "1";
+                           td.isuser2xfer = "1";
+                           td.coinsspent = "1";
+                           tdList.add(td);
+                           td = Transferdetails();
+                           td.usertype = "Receiver";
+                           td.swaptype = "10";
+                           td.swapbuddyid = "2";
+                           td.schaduledate = "";
+                           td.requestaccaptance = "2";
+                           td.isuser1xfer = "2";
+                           td.isuser2xfer = "2";
+                           td.coinsspent = "2";
+                           tdList.add(td);
+                           userController.uploadListOnServer(tdList, 10);
+                         },
+                         child: Text(
+                          'Hi ,Welcome Back! 👋',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textBlackColor,
+                          ),
+                                               ),
+                       ),
                       const SizedBox(height: 5),
                       const Text(
                         'Hello again. You have been missed!',
@@ -136,7 +162,7 @@ class LoginScreen extends StatelessWidget {
                           const Spacer(),
                           GestureDetector(
                             onTap: () => controller.forgotPassword(),
-                            child: const Text(
+                            child:  Text(
                               'Forgot Password ?',
                               style: TextStyle(
                                 color: AppColors.textRedColor,

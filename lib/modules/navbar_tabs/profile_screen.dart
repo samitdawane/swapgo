@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:swapgo/controllers/user_controller.dart';
 import 'package:swapgo/core/common/app_colors.dart';
-import 'package:swapgo/core/common/app_fontStyles.dart';
-import 'package:swapgo/core/common/app_images.dart';
 import 'package:swapgo/core/common/custom_appbar.dart';
 import 'package:swapgo/data/models/master_json_data.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:swapgo/modules/profession/profession_search.dart';
 
 class ProfileScreen extends StatelessWidget {

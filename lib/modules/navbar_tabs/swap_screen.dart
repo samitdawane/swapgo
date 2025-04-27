@@ -16,22 +16,23 @@ class SwapScreen extends StatefulWidget {
 class _SwapScreenState extends State<SwapScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
   final List<SkillCard> dummySendSkills = [
     SkillCard(
-      name: "Shantanu Joshi",
-      role: "Musician",
+      name: "Michael Camacho",
+      role: "UI/UX, Branding",
       rating: 5,
-      experience: "8 years+",
+      experience: "6-9 years",
       likes: "3K+",
       energy: "65+",
       comments: "146",
       imageUrl: AppImages.avatar1,
     ),
     SkillCard(
-      name: "Payal Gupta",
-      role: "Musician",
+      name: "Megan Huerta",
+      role: "SQL, C#",
       rating: 4,
-      experience: "5 years+",
+      experience: "1-3 years",
       likes: "5K+",
       energy: "60+",
       comments: "128",
