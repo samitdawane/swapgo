@@ -126,105 +126,117 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                       itemCount: _filteredUsers.length,
                       itemBuilder: (context, index) {
                         final user = _filteredUsers[index];
-                        return Container(
-                          padding: EdgeInsets.all(12),
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.carColor,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          // elevation: 4,
-                          // shape: RoundedRectangleBorder(
-                          //   borderRadius: BorderRadius.circular(12),
-                          // ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.asset(
-                                    'assets/profile_avatar/${user['ImgLink']}',
+                        return InkWell(
+                          onTap: () {
+                            Get.to(
+                              () => ProfileScreen(),
+                              arguments: user['id'],
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(12),
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.carColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            // elevation: 4,
+                            // shape: RoundedRectangleBorder(
+                            //   borderRadius: BorderRadius.circular(12),
+                            // ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.asset(
+                                      'assets/profile_avatar/${user['ImgLink']}',
 
-                                    width: 105,
-                                    height: 85,
-                                    fit: BoxFit.cover,
-                                    // errorBuilder:
-                                    //     (context, error, stackTrace) =>
-                                    //         Container(
-                                    //           width: 105,
-                                    //           height: 85,
-                                    //           color: Colors.grey[300],
-                                    //           child: const Icon(
-                                    //             Icons.person,
-                                    //             size: 40,
-                                    //           ),
-                                    //         ),
+                                      width: 105,
+                                      height: 85,
+                                      fit: BoxFit.cover,
+                                      // errorBuilder:
+                                      //     (context, error, stackTrace) =>
+                                      //         Container(
+                                      //           width: 105,
+                                      //           height: 85,
+                                      //           color: Colors.grey[300],
+                                      //           child: const Icon(
+                                      //             Icons.person,
+                                      //             size: 40,
+                                      //           ),
+                                      //         ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 15),
-                              Expanded(
-                                flex: 3,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      user['name'],
-                                      style: AppTextStyle.font17SemiBold(),
-                                    ),
-                                    // const SizedBox(height: 4),
-                                    Text(
-                                      user['interest'],
-                                      style: AppTextStyle.font13Medium(),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      "Experience: ${user['experience']} years",
-                                      style: AppTextStyle.font12Medium(),
-                                    ),
-                                    SizedBox(height: 6),
-                                    Row(
-                                      children: [
-                                        // StarRatingWidget(rating: user['rating']),
-                                        const Icon(
-                                          Icons.favorite_border,
-                                          size: 18,
-                                        ),
-                                        Text("${user['numberOfLikes']}"),
-                                        const SizedBox(width: 8),
-                                        const Icon(Icons.swap_horiz, size: 18),
-                                        Text("${user['numberOfSwaps']}"),
-                                        const SizedBox(width: 12),
-                                        const Icon(
-                                          Icons.comment_outlined,
-                                          size: 18,
-                                        ),
-                                        Text("${user['numberOfComments']}"),
-                                      ],
-                                    ),
-                                    SizedBox(height: 4),
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: AppButton(
-                                        text: 'SWAP',
-                                        onPressed: () {
-                                          Get.to(
-                                            () => ProfileScreen(),
-                                            arguments: user['id'],
-                                          );
-                                        },
-                                        verticalPadding: 8,
+                                const SizedBox(width: 15),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        user['name'],
+                                        style: AppTextStyle.font17SemiBold(),
                                       ),
-                                    ),
-                                  ],
+                                      // const SizedBox(height: 4),
+                                      Text(
+                                        user['interest'],
+                                        style: AppTextStyle.font13Medium(),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        "Experience: ${user['experience']} years",
+                                        style: AppTextStyle.font12Medium(),
+                                      ),
+                                      SizedBox(height: 6),
+                                      Row(
+                                        children: [
+                                          // StarRatingWidget(rating: user['rating']),
+                                          const Icon(
+                                            Icons.favorite_border,
+                                            size: 18,
+                                          ),
+                                          Text("${user['numberOfLikes']}"),
+                                          const SizedBox(width: 8),
+                                          const Icon(
+                                            Icons.swap_horiz,
+                                            size: 18,
+                                          ),
+                                          Text("${user['numberOfSwaps']}"),
+                                          const SizedBox(width: 12),
+                                          const Icon(
+                                            Icons.comment_outlined,
+                                            size: 18,
+                                          ),
+                                          Text("${user['numberOfComments']}"),
+                                        ],
+                                      ),
+                                      SizedBox(height: 4),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: AppButton(
+                                          text: 'SWAP',
+                                          onPressed: () {
+                                            Get.to(
+                                              () => ProfileScreen(),
+                                              arguments: user['id'],
+                                            );
+                                          },
+                                          verticalPadding: 8,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },
