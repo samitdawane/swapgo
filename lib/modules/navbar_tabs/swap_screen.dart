@@ -19,10 +19,10 @@ class _SwapScreenState extends State<SwapScreen>
 
   final List<SkillCard> dummySendSkills = [
     SkillCard(
-      name: "Michael Camacho",
+      name: "Jacob Buckley",
       role: "UI/UX, Branding",
       rating: 5,
-      experience: "6-9 years",
+      experience: "1-3 years",
       likes: "3K+",
       energy: "65+",
       comments: "146",
