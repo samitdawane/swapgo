@@ -21,10 +21,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: InkWell(
-        onTap: () => Get.back(),
-        child: Icon(Icons.arrow_back_outlined, color: Colors.white),
-      ),
+      leading:
+          Navigator.canPop(context)
+              ? InkWell(
+                onTap: () => Get.back(),
+                child: Icon(Icons.arrow_back_outlined, color: Colors.white),
+              )
+              : SizedBox.shrink(),
 
       backgroundColor: AppColors.bottomNavbarColor,
       elevation: 2,
