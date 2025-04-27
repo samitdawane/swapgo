@@ -203,15 +203,30 @@ class Transferdetails {
   String? swaptype;
   String? swapbuddyid;
   String? schaduledate;
+  String? requestaccaptance;
+  String? isuser1xfer;
+  String? isuser2xfer;
+  String? coinsspent;
 
   Transferdetails(
-      {this.usertype, this.swaptype, this.swapbuddyid, this.schaduledate});
+      {this.usertype,
+        this.swaptype,
+        this.swapbuddyid,
+        this.schaduledate,
+        this.requestaccaptance,
+        this.isuser1xfer,
+        this.isuser2xfer,
+        this.coinsspent});
 
   Transferdetails.fromJson(Map<String, dynamic> json) {
     usertype = json['usertype'];
     swaptype = json['swaptype'];
     swapbuddyid = json['swapbuddyid'];
     schaduledate = json['schaduledate'];
+    requestaccaptance = json['requestaccaptance'];
+    isuser1xfer = json['isuser1xfer'];
+    isuser2xfer = json['isuser2xfer'];
+    coinsspent = json['coinsspent'];
   }
 
   Map<String, dynamic> toJson() {
@@ -220,6 +235,10 @@ class Transferdetails {
     data['swaptype'] = this.swaptype;
     data['swapbuddyid'] = this.swapbuddyid;
     data['schaduledate'] = this.schaduledate;
+    data['requestaccaptance'] = this.requestaccaptance;
+    data['isuser1xfer'] = this.isuser1xfer;
+    data['isuser2xfer'] = this.isuser2xfer;
+    data['coinsspent'] = this.coinsspent;
     return data;
   }
 }

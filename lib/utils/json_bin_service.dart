@@ -55,7 +55,7 @@ class JsonBinService {
   }
 
   // Update an existing JSON bin
-  static Future<bool> updateBin(String binId, Map<String, dynamic> data) async {
+  static Future<bool> updateBin(String binId, List<Map<String, dynamic>>  data) async {
     final response = await http.put(
       Uri.parse('$_baseUrl/b/680cfb528561e97a50081cb1?meta=false'),
       headers: {

@@ -61,37 +61,57 @@ class UserController extends GetxController {
 
   }
 
-   createMasterDataToSave(MasterJSONData user){
 
-     MasterJSONData mm = MasterJSONData();
-     mm.data?.id = 1;
-     mm.data?.fname = 'Samit';
-     mm.data?.lname = 'Dawane';
-     mm.data?.mobileNo = '1111111111';
-     mm.data?.password = '123456';
-     mm.data?.email = 'sami@gmail.com';
-     mm.data?.dob = '25-Jul-1992';
-     mm.data?.isActive = false;
-     mm.data?.isProfileComplete = false;
+  uploadListOnServer(List<Transferdetails> transferDetailList, int id) async {
+    MasterJSONData updatedUser = createMasterDataToSave(transferDetailList,id);
+    for (var user in masterDataJSON.value) {
+      if (user.data!.id == id) {
+       user = updatedUser;
+        print('>>>>>>>Return data:${user.data}');
+        break;
+      }
+    }
+    List<Map<String, dynamic>> userListJson = masterDataJSON.map((user) => user.toJson()).toList();
+    await JsonBinService.updateBin("sss", userListJson );
+    print('>>>>>>>Changed list:${masterDataJSON.length}');
+  }
+
+  MasterJSONData? getUserToUpdate(int id) {
+    MasterJSONData? userData = null;
+    for (var user in masterDataJSON.value) {
+      if (user.data!.id == id) {
+        userData = user;
+        print('>>>>>>>Return data:${user.data}');
+        break;
+      }
+
+    }
+    return userData;
+  }
 
 
-     Personaldetails pd = Personaldetails();
-     pd.occupation = '';
-    /* pd. = '';
-     pd. = '';
-     pd. = '';
-     pd. = '';
-     pd. = '';
-     pd. = '';
+   createMasterDataToSave(List<Transferdetails> transferDetailList, int id){
 
+     MasterJSONData? masterDataToSave = MasterJSONData();
+     masterDataToSave = getUserToUpdate(id);
+     List<Transferdetails> tdList = [];
 
-     "occupation": "Legal & Law",
-     "skillowned": "Contract Drafting,Corporate Law,Arbitration",
-     "experience": "12-15",
-     "worlink": "http://www.jones-cook.com/",
-     "description": "Man reach official fly deep individual different girl.",
-     "achievements": "Never those believe."*/
+     transferDetailList.forEach((trData) {
+       Transferdetails td = Transferdetails();
+       td.usertype = trData.usertype;
+       td.swaptype = trData.swaptype;
+       td.swapbuddyid = trData.swapbuddyid;
+       td.schaduledate = trData.schaduledate;
+       td.requestaccaptance = trData.requestaccaptance;
+       td.isuser1xfer = trData.isuser1xfer;
+       td.isuser2xfer = trData.isuser2xfer;
+       td.coinsspent = trData.coinsspent;
+       tdList.add(td);
 
+     });
+
+     masterDataToSave!.data!.transferdetails = tdList;
+     return masterDataToSave;
 
   }
 
