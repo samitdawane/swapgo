@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:swapgo/controllers/user_controller.dart';
+import 'package:swapgo/core/common/app_button.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_fontStyles.dart';
-import 'package:swapgo/core/common/custom_appbar.dart';
+import 'package:swapgo/core/controllers/main_screen_controller.dart';
 import 'package:swapgo/data/models/user_model.dart';
+import 'package:swapgo/modules/navbar_tabs/profile_screen.dart';
 
 class ProfessionSearchScreen extends StatefulWidget {
   const ProfessionSearchScreen({super.key});
@@ -13,6 +17,9 @@ class ProfessionSearchScreen extends StatefulWidget {
 
 class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final MainScreenController mainController = Get.find<MainScreenController>();
+  final UserController userController = Get.find<UserController>();
+
   String _searchText = "";
 
   @override
@@ -23,186 +30,207 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
 
   List<Map<String, dynamic>> get _filteredUsers {
     if (_searchText.isEmpty) return [];
-    return UserData.professionUsers[_searchText.toLowerCase()] ?? [];
+
+    return userController.masterDataJSON
+        .expand(
+          (userData) =>
+              userData.data?.avatarwithinterest?.map((avatar) {
+                if (avatar.interest!.toLowerCase().contains(
+                  _searchText.toLowerCase(),
+                )) {
+                  return {
+                    'ImgLink': avatar.imgLink ?? '',
+                    'interest': avatar.interest ?? '',
+                    'name':
+                        '${userData.data?.fname ?? ''} ${userData.data?.lname ?? ''}',
+                    'rating':
+                        userData.data?.reviewandrating?.isNotEmpty == true
+                            ? userData.data?.reviewandrating!.first.rating ?? ''
+                            : '',
+                    'description':
+                        userData.data?.personaldetails?.isNotEmpty == true
+                            ? userData
+                                    .data
+                                    ?.personaldetails!
+                                    .first
+                                    .description ??
+                                ''
+                            : '',
+                    'experience':
+                        userData.data?.personaldetails?.isNotEmpty == true
+                            ? userData
+                                    .data
+                                    ?.personaldetails!
+                                    .first
+                                    .experience ??
+                                ''
+                            : '',
+                    'numberOfLikes':
+                        userData.data?.reviewandrating?.isNotEmpty == true
+                            ? userData.data?.reviewandrating!.first.likes ?? ''
+                            : '',
+                    'numberOfComments':
+                        userData.data?.reviewandrating?.isNotEmpty == true
+                            ? userData.data?.reviewandrating!.first.comments ??
+                                ''
+                            : '',
+                    'numberOfSwaps':
+                        userData.data?.reviewandrating?.isNotEmpty == true
+                            ? userData.data?.reviewandrating!.first.swap ?? ''
+                            : '',
+                    'id': userData.data?.id ?? '',
+                  };
+                } else {
+                  return null;
+                }
+              }) ??
+              [],
+        )
+        .where((element) => element != null) // filter out nulls
+        .cast<Map<String, dynamic>>()
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.backgroundColor,
-
-        body: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.bottomNavbarColor,
-                // borderRadius: const BorderRadius.only(
-                //   topLeft: Radius.circular(12),
-                //   topRight: Radius.circular(12),
-                // ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.bottomNavbarColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: "Enter profession (musician, engineer, doctor)",
-                      hintStyle: AppTextStyle.font12Medium(),
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: AppColors.textBlackColor,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: AppColors.buttonColor,
-                          width: 2.0,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: AppColors.bottomNavbarContainerColor,
-                          width: 2.0,
-                        ),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _searchText = value.trim();
-                      });
-                    },
-                  ),
+    return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
+      appBar: AppBar(title: const Text('Search Users by Profession')),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: "Enter profession (musician, engineer, doctor)",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
+              onChanged: (value) {
+                setState(() {
+                  _searchText = value.trim();
+                });
+              },
             ),
-
-            Expanded(
-              child:
-                  _filteredUsers.isEmpty
-                      ? const Center(
-                        child: Text("No users found. Please search correctly."),
-                      )
-                      : ListView.builder(
-                        itemCount: _filteredUsers.length,
-                        itemBuilder: (context, index) {
-                          final user = _filteredUsers[index];
-                          return Card(
+          ),
+          Expanded(
+            child:
+                _filteredUsers.isEmpty
+                    ? const Center(
+                      child: Text("No users found. Please search correctly."),
+                    )
+                    : ListView.builder(
+                      itemCount: _filteredUsers.length,
+                      itemBuilder: (context, index) {
+                        final user = _filteredUsers[index];
+                        return Container(
+                          padding: EdgeInsets.all(12),
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
                             color: AppColors.carColor,
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                radius: 30,
-                                backgroundImage: AssetImage(user['imageUrl']),
-                              ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          // elevation: 4,
+                          // shape: RoundedRectangleBorder(
+                          //   borderRadius: BorderRadius.circular(12),
+                          // ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.asset(
+                                    'assets/profile_avatar/${user['ImgLink']}',
 
-                              title: Text(
-                                user['name'],
-                                style: AppTextStyle.font13Bold(),
+                                    width: 105,
+                                    height: 85,
+                                    fit: BoxFit.cover,
+                                    // errorBuilder:
+                                    //     (context, error, stackTrace) =>
+                                    //         Container(
+                                    //           width: 105,
+                                    //           height: 85,
+                                    //           color: Colors.grey[300],
+                                    //           child: const Icon(
+                                    //             Icons.person,
+                                    //             size: 40,
+                                    //           ),
+                                    //         ),
+                                  ),
+                                ),
                               ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Experience: ${user['experience']}",
-                                    style: AppTextStyle.font14Bold(),
-                                  ),
-                                  Text(
-                                    "Likes: ${user['numberOfLikes']}",
-                                    style: AppTextStyle.font14Bold(),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      StarRatingWidget(rating: user['rating']),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        "${user['rating']}",
-                                        style: AppTextStyle.font13Bold(
-                                          color: Colors.green,
+                              const SizedBox(width: 15),
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      user['name'],
+                                      style: AppTextStyle.font17SemiBold(),
+                                    ),
+                                    // const SizedBox(height: 4),
+                                    Text(
+                                      user['interest'],
+                                      style: AppTextStyle.font13Medium(),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      "Experience: ${user['experience']} years",
+                                      style: AppTextStyle.font12Medium(),
+                                    ),
+                                    SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        // StarRatingWidget(rating: user['rating']),
+                                        const Icon(
+                                          Icons.favorite_border,
+                                          size: 18,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  // const SizedBox(height: 4),
-                                  // Text("Liked: ${user['liked'] ? "Yes" : "No"}"),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    "Description: ${user['description']}",
-                                    style: AppTextStyle.font13Medium(),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          // Open LinkedIn URL
+                                        Text("${user['numberOfLikes']}"),
+                                        const SizedBox(width: 8),
+                                        const Icon(Icons.swap_horiz, size: 18),
+                                        Text("${user['numberOfSwaps']}"),
+                                        const SizedBox(width: 12),
+                                        const Icon(
+                                          Icons.comment_outlined,
+                                          size: 18,
+                                        ),
+                                        Text("${user['numberOfComments']}"),
+                                      ],
+                                    ),
+                                    SizedBox(height: 4),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: AppButton(
+                                        text: 'SWAP',
+                                        onPressed: () {
+                                          Get.to(
+                                            () => ProfileScreen(),
+                                            arguments: user['id'],
+                                          );
                                         },
-                                        child: Text(
-                                          "LinkedIn Profile",
-                                          style: const TextStyle(
-                                            color: Colors.blue,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        ),
+                                        verticalPadding: 8,
                                       ),
-                                      Spacer(),
-                                      SizedBox(
-                                        width: 120,
-                                        height: 30,
-                                        child: ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                AppColors.primaryColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                          ),
-                                          child: const Text(
-                                            "Swap",
-                                            style: TextStyle(
-                                              fontWeight:
-                                                  FontWeight
-                                                      .bold, // Make the text bold
-                                              color:
-                                                  Colors
-                                                      .white, // Set text color to white for contrast
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                              isThreeLine: true,
-                            ),
-                          );
-                        },
-                      ),
-            ),
-          ],
-        ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+          ),
+        ],
       ),
     );
   }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "917767598732",
+    "project_id": "swapgo-80900",
+    "storage_bucket": "swapgo-80900.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917767598732:android:febd985e8d3f5de9a401a9",
+        "android_client_info": {
+          "package_name": "com.example.swapgo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgeti09VYtPJItoiIyq4Hk7XLoODTZzIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

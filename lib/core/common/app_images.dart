@@ -7,4 +7,6 @@ class AppImages {
   static const String avatar6 = 'assets/profile_avatar/avatar6.jpeg';
   static const String uiUxBanner = 'assets/profile_avatar/uiuxbanner.png';
   static const String javaBanner = 'assets/profile_avatar/javaBanner.png';
+  // static const String splashImage = 'assets/profile_avatar/splashImage.png';
+  static const String splashImage = 'assets/profile_avatar/splash_image.png';
 }

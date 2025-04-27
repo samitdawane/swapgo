@@ -6,6 +6,8 @@ class LoginViewModel extends GetxController {
   final AuthRepository _repository = AuthRepository();
   var isLoading = false.obs;
 
+
+
   Future<void> login(String email, String password) async {
     isLoading.value = true;
     try {
