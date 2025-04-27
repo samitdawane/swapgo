@@ -5,25 +5,26 @@ import 'package:swapgo/core/common/app_fontStyles.dart';
 import 'package:swapgo/core/common/app_images.dart';
 import 'package:swapgo/core/common/coming_soon_screen.dart';
 import 'package:swapgo/core/common/custom_appbar.dart';
+import 'package:swapgo/core/controllers/home_screen_controller.dart';
+import 'package:swapgo/core/controllers/main_screen_controller.dart';
 import 'package:swapgo/modules/profession/profession_search.dart';
-// import navbar
 
-class HomeScreen extends StatefulWidget {
-  final Map<String, dynamic>? arguements;
-  const HomeScreen({super.key, this.arguements});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
+class HomeScreen extends StatelessWidget {
+  final Map<String, dynamic>? arguments;
+  const HomeScreen({super.key, this.arguments});
 
   @override
   Widget build(BuildContext context) {
+    // Initialize the controller
+    final HomeScreenController homeScreenController = Get.put(
+      HomeScreenController(),
+    );
+    final MainScreenController mainController =
+        Get.find<MainScreenController>();
+
     return Scaffold(
       appBar: CustomAppBar(
-        title: "HOME",
+        title: "Hello ${mainController.userData.fname}",
         onSearchTap: () {
           Get.to(() => const ProfessionSearchScreen());
         },
@@ -75,13 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               const Spacer(),
                               CircleAvatar(
                                 radius: 10,
-                                // backgroundColor: Colors.grey,
                                 child: Image.asset(AppImages.avatar1),
                               ),
                               const SizedBox(width: 4),
                               CircleAvatar(
                                 radius: 10,
-                                // backgroundColor: Colors.grey,
                                 child: Image.asset(AppImages.avatar2),
                               ),
                               const SizedBox(width: 4),
@@ -109,7 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               const Icon(Icons.favorite_border, size: 18),
                               Text(
-                                "100",
+                                mainController
+                                        .userData
+                                        .reviewandrating?[0]
+                                        .likes ??
+                                    "",
                                 style: AppTextStyle.font13Medium(
                                   fontFamily: AppFontFamily.inter,
                                 ),
@@ -117,7 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 6),
                               const Icon(Icons.swap_horiz, size: 18),
                               Text(
-                                "100",
+                                mainController
+                                        .userData
+                                        .reviewandrating?[0]
+                                        .swap ??
+                                    "",
                                 style: AppTextStyle.font13Medium(
                                   fontFamily: AppFontFamily.inter,
                                 ),
@@ -125,7 +132,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 6),
                               const Icon(Icons.comment_outlined, size: 18),
                               Text(
-                                "100",
+                                mainController
+                                        .userData
+                                        .reviewandrating?[0]
+                                        .comments ??
+                                    "",
                                 style: AppTextStyle.font13Medium(
                                   fontFamily: AppFontFamily.inter,
                                 ),

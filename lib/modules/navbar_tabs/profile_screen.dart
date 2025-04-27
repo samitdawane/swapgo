@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:swapgo/controllers/user_controller.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_fontStyles.dart';
 import 'package:swapgo/core/common/app_images.dart';
 import 'package:swapgo/core/common/custom_appbar.dart';
-import 'package:swapgo/core/controllers/personal_details_controller.dart';
-import 'package:swapgo/core/routes/app_routes.dart';
 import 'package:swapgo/data/models/master_json_data.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:swapgo/modules/profession/profession_search.dart';
 
-
 class ProfileScreen extends StatelessWidget {
-
+  final UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
-    // Access the controller
-    final ProfileDetailsController controller = Get.put(ProfileDetailsController());
-    final UserController userController = Get.put(UserController());
+    final int userId = Get.arguments;
+    final MasterJSONData? userData = userController.masterDataJSON
+        .firstWhereOrNull((user) => user.data?.id == userId);
+
+    if (userData == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text("Profile")),
+        body: Center(child: Text('User not found')),
+      );
+    }
+
+    final data = userData.data!;
+
     return Scaffold(
       appBar: CustomAppBar(
         title: "Profile",
@@ -28,148 +38,161 @@ class ProfileScreen extends StatelessWidget {
       ),
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-          decoration: BoxDecoration(
-            color: Colors.white, // Background color
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(47),  // Top-left rounded corner
-              topRight: Radius.circular(47), // Top-right rounded corner
-            ), // Rounded corners
-
-          ),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+                ),
+                child: Column(
                   children: [
-                    // Profile Image
-                    Expanded(
-                      flex: 2,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.asset(
-                          AppImages.avatar1,
-                          width: 105,
-                          height: 105,
-                          fit: BoxFit.cover,
-                          errorBuilder:
-                              (context, error, stackTrace) => Container(
-                            width: 105,
-                            height: 105,
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.person, size: 40),
-                          ),
-                        ),
+                    const SizedBox(height: 16),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        'assets/profile_avatar/${data.avatarwithinterest?.first.imgLink}',
+                        width: 105,
+                        height: 85,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Expanded(
-                      flex: 4,
+
+                    const SizedBox(height: 12),
+                    Text(
+                      '${data.fname ?? ''} ${data.lname ?? ''}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.favorite_border, size: 18),
+                        Text('3K+'),
+                        const SizedBox(width: 8),
+
+                        Icon(Icons.brightness_1, size: 6),
+                        const SizedBox(width: 8),
+                        const Icon(Icons.swap_horiz, size: 18),
+                        const SizedBox(width: 8),
+                        Text('60+'),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _button("SWAP", Colors.brown, Colors.white),
+                        const SizedBox(width: 8),
+                        _button("MESSAGE", Colors.grey[300]!, Colors.black),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    _sectionTitle("About"),
+                    _aboutRow(Icons.phone, data.mobileNo ?? ''),
+                    _aboutRow(Icons.message, data.email ?? ''),
+                    _aboutRow(
+                      Icons.link,
+                      'https://www.linkedin.com/feed/${data.fname}',
+                    ),
+                    const SizedBox(height: 24),
+                    _sectionTitle("Discription"),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        data.personaldetails?.first.description ??
+                            'No description available',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    _sectionTitle("Achievements"),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Samit Dawane', style: AppTextStyle.font24Medium()),
-                          Row(
-
-                            children: [
-                              _buildStat(Icons.favorite, "3k+"),
-                              const SizedBox(width: 12),
-                              Container(
-                                width: 5,  // size of the dot
-                                height: 5,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFFFC700),  // yellow color
-                                  shape: BoxShape.circle, // makes it a circle
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              _buildStat(Icons.flash_on,"60+"),
-
-                            ],
+                          _bulletText(
+                            'Released two successful albums that garnered positive reviews and substantial airplay',
                           ),
-                          SizedBox(height: 10,),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-
-                                backgroundColor:AppColors.primaryColor, // Button background
-                                foregroundColor:Colors.white, // Text/Icon color
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              //onPressed: () => controller.login(),
-                              onPressed: () async {
-                                List<Transferdetails> tdList = [];
-                                Transferdetails td = Transferdetails();
-                                td.usertype = "Sender";
-                                td.swaptype = "1";
-                                td.swapbuddyid = "2";
-                                td.schaduledate = "";
-                                td.requestaccaptance = "1";
-                                td.isuser1xfer = "1";
-                                td.isuser2xfer = "1";
-                                td.coinsspent = "1";
-                                tdList.add(td);
-                                td = Transferdetails();
-                                td.usertype = "Receiver";
-                                td.swaptype = "1";
-                                td.swapbuddyid = "2";
-                                td.schaduledate = "";
-                                td.requestaccaptance = "2";
-                                td.isuser1xfer = "2";
-                                td.isuser2xfer = "2";
-                                td.coinsspent = "2";
-                                tdList.add(td);
-
-
-                                userController.uploadListOnServer(tdList,12);
-                              },
-
-                              child:  Text('SWAP',
-                                style: AppTextStyle.font12Medium(color: Colors.white),
-                              ),
-                            ),
-                          ).paddingOnly(right: 20),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-
-                                backgroundColor: Color(0xFFDCDCDC), // Button background
-                                foregroundColor:Colors.white, // Text/Icon color
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              //onPressed: () => controller.login(),
-                              onPressed: () async {
-
-                              },
-
-                              child: const Text('Message',
-                                style: TextStyle(color:AppColors.primaryColor,),
-                              ),
-                            ),
-                          ).paddingOnly(right: 20)
-
+                          _bulletText(
+                            'Awarded "Best Original Soundtrack" at the XYZ Film Festival for my composition in the film "Dreamscape"',
+                          ),
+                          _bulletText(
+                            'Collaborated with renowned artists and musicians, broadening my musical horizons',
+                          ),
                         ],
-                      ).marginOnly(top: 20, left: 30),
-                    )
-
-                    // Musician Info
-
+                      ),
+                    ),
+                    const SizedBox(height: 24),
                   ],
-                ).marginOnly(left: 30, top: 30),
-                Text('About',style: AppTextStyle.font20Medium())
-
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _button(String text, Color color, Color textColor) {
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        child: Text(text, style: TextStyle(color: textColor)),
+      ),
+    );
+  }
+
+  Widget _sectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(width: 4),
+          Icon(Icons.info_outline, size: 16),
+        ],
+      ),
+    );
+  }
+
+  Widget _aboutRow(IconData icon, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          Icon(icon, size: 18),
+          const SizedBox(width: 8),
+          Expanded(child: Text(value, style: TextStyle(fontSize: 14))),
+        ],
+      ),
+    );
+  }
+
+  Widget _bulletText(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("• ", style: TextStyle(fontSize: 16)),
+          Expanded(child: Text(text, style: TextStyle(fontSize: 14))),
+        ],
       ),
     );
   }

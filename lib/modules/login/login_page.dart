@@ -40,14 +40,40 @@ class LoginScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 10),
-                      const Text(
-                        'Hi ,Welcome Back! 👋',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textBlackColor,
-                        ),
-                      ),
+                       GestureDetector(
+                         onTap: (){
+                           List<Transferdetails> tdList = [];
+                           Transferdetails td = Transferdetails();
+                           td.usertype = "Sender";
+                           td.swaptype = "10";
+                           td.swapbuddyid = "2";
+                           td.schaduledate = "";
+                           td.requestaccaptance = "1";
+                           td.isuser1xfer = "1";
+                           td.isuser2xfer = "1";
+                           td.coinsspent = "1";
+                           tdList.add(td);
+                           td = Transferdetails();
+                           td.usertype = "Receiver";
+                           td.swaptype = "10";
+                           td.swapbuddyid = "2";
+                           td.schaduledate = "";
+                           td.requestaccaptance = "2";
+                           td.isuser1xfer = "2";
+                           td.isuser2xfer = "2";
+                           td.coinsspent = "2";
+                           tdList.add(td);
+                           userController.uploadListOnServer(tdList, 10);
+                         },
+                         child: Text(
+                          'Hi ,Welcome Back! 👋',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textBlackColor,
+                          ),
+                                               ),
+                       ),
                       const SizedBox(height: 5),
                       const Text(
                         'Hello again. You have been missed!',
@@ -58,29 +84,33 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       const Text(
-                        'Email',
+                        'Phone No.',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 5),
                       TextFormField(
                         controller: controller.emailController,
+                        maxLength: 10,
                         decoration: InputDecoration(
-                          hintText: 'Email, phone & username',
+                          hintText: 'Phone no.',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your email or phone or username';
+                            return 'Please enter your valide phone no ';
+                          }
+                          if (value.trim().length != 10) {
+                            return 'Phone number must be exactly 10 digits';
                           }
                           return null;
                         },
 
                         onSaved:
                             (value) => controller.loginModel.update((model) {
-                          model?.email = value ?? '';
-                        }),
+                              model?.email = value ?? '';
+                            }),
                       ),
                       const SizedBox(height: 20),
                       const Text(
@@ -89,11 +119,11 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Obx(
-                            () => TextField(
+                        () => TextField(
                           controller: controller.passwordController,
                           obscureText: !controller.isPasswordVisible.value,
                           decoration: InputDecoration(
-                            labelText: 'Password',
+                            // labelText: 'Password',
                             suffixIcon: IconButton(
                               icon: Icon(
                                 controller.isPasswordVisible.value
@@ -111,7 +141,7 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         children: [
                           Obx(
-                                () => Checkbox(
+                            () => Checkbox(
                               value: controller.rememberPassword.value,
                               activeColor: AppColors.checkboxActiveColor,
                               onChanged: (value) {
@@ -124,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                           const Spacer(),
                           GestureDetector(
                             onTap: () => controller.forgotPassword(),
-                            child: const Text(
+                            child:  Text(
                               'Forgot Password ?',
                               style: TextStyle(
                                 color: AppColors.textRedColor,
@@ -136,54 +166,60 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Obx(
-                            () =>
-                        controller.isLoading.value
-                            ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                            : SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                              AppColors
-                                  .primaryColor, // Button background
-                              foregroundColor:
-                              Colors.white, // Text/Icon color
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            //onPressed: () => controller.login(),
-                            onPressed: () async {
-                              MasterJSONData? userData = await userController.checkUserlogin(controller.emailController.text,
-                                  controller.passwordController.text);
+                        () =>
+                            controller.isLoading.value
+                                ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                                : SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          AppColors
+                                              .primaryColor, // Button background
+                                      foregroundColor:
+                                          Colors.white, // Text/Icon color
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    //onPressed: () => controller.login(),
+                                    onPressed: () async {
+                                      MasterJSONData? userData =
+                                          await userController.checkUserlogin(
+                                            controller.emailController.text,
+                                            controller.passwordController.text,
+                                          );
 
-                              userController.getInterest();
-                              if(userData?.data != null){
+                                      if (userData?.data != null) {
+                                        Get.offAll(
+                                          MainScreen(),
+                                          arguments: userData?.data,
+                                        );
+                                      } else {
+                                        print(
+                                          "Mobile Number or Password invalid",
+                                        );
+                                        Get.snackbar(
+                                          'Error',
+                                          'Mobile Number or Password invalid',
+                                          backgroundColor: Colors.red,
+                                        );
+                                      }
+                                    },
 
-                                Get.to(MainScreen(),arguments: userData );
-
-                              }else{
-                                print("Mobile Number or Password invalid");
-                                Get.snackbar('Error', 'Mobile Number or Password invalid', backgroundColor: Colors.red,);
-                              }
-
-                            },
-
-
-
-                            child: const Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                color:
-                                Colors
-                                    .white, // (extra safe - you can also remove this because foregroundColor already handles it)
-                              ),
-                            ),
-                          ),
-                        ),
+                                    child: const Text(
+                                      'LOGIN',
+                                      style: TextStyle(
+                                        color:
+                                            Colors
+                                                .white, // (extra safe - you can also remove this because foregroundColor already handles it)
+                                      ),
+                                    ),
+                                  ),
+                                ),
                       ),
                       const SizedBox(height: 20),
                       Row(
