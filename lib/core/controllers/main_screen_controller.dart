@@ -15,10 +15,10 @@ class MainScreenController extends GetxController {
   //Rxn<MasterJSONData> userData =
 
   // List of pages for navigation
-  final List<Widget> pages = const [
-    HomeScreen(),
-    FavouriteScreen(),
-    SwapScreen(),
+  final List<Widget> pages = [
+    const HomeScreen(),
+    const FavouriteScreen(),
+    const SwapScreen(),
     ProfileScreen(),
   ];
 

@@ -160,17 +160,6 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                                       width: 105,
                                       height: 85,
                                       fit: BoxFit.cover,
-                                      // errorBuilder:
-                                      //     (context, error, stackTrace) =>
-                                      //         Container(
-                                      //           width: 105,
-                                      //           height: 85,
-                                      //           color: Colors.grey[300],
-                                      //           child: const Icon(
-                                      //             Icons.person,
-                                      //             size: 40,
-                                      //           ),
-                                      //         ),
                                     ),
                                   ),
                                 ),

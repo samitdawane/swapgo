@@ -58,21 +58,24 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       const Text(
-                        'Email',
+                        'Phone No.',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 5),
                       TextFormField(
                         controller: controller.emailController,
                         decoration: InputDecoration(
-                          hintText: 'Email, phone & username',
+                          hintText: 'Phone no.',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your email or phone or username';
+                            return 'Please enter your valide phone no ';
+                          }
+                          if (value.trim().length != 10) {
+                            return 'Phone number must be exactly 10 digits';
                           }
                           return null;
                         },
