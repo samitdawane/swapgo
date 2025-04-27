@@ -7,6 +7,7 @@ import 'package:swapgo/core/common/app_images.dart';
 import 'package:swapgo/core/common/custom_appbar.dart';
 import 'package:swapgo/core/controllers/personal_details_controller.dart';
 import 'package:swapgo/core/routes/app_routes.dart';
+import 'package:swapgo/data/models/master_json_data.dart';
 import 'package:swapgo/modules/profession/profession_search.dart';
 
 
@@ -102,7 +103,30 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               //onPressed: () => controller.login(),
                               onPressed: () async {
-                                //userController.uploadListOnServer(userController.user.first,2);
+                                List<Transferdetails> tdList = [];
+                                Transferdetails td = Transferdetails();
+                                td.usertype = "Sender";
+                                td.swaptype = "1";
+                                td.swapbuddyid = "2";
+                                td.schaduledate = "";
+                                td.requestaccaptance = "1";
+                                td.isuser1xfer = "1";
+                                td.isuser2xfer = "1";
+                                td.coinsspent = "1";
+                                tdList.add(td);
+                                td = Transferdetails();
+                                td.usertype = "Receiver";
+                                td.swaptype = "1";
+                                td.swapbuddyid = "2";
+                                td.schaduledate = "";
+                                td.requestaccaptance = "2";
+                                td.isuser1xfer = "2";
+                                td.isuser2xfer = "2";
+                                td.coinsspent = "2";
+                                tdList.add(td);
+
+
+                                userController.uploadListOnServer(tdList,12);
                               },
 
                               child:  Text('SWAP',
