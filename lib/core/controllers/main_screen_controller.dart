@@ -5,6 +5,7 @@ import 'package:swapgo/modules/navbar_tabs/favourite_screen.dart';
 import 'package:swapgo/modules/navbar_tabs/home_screen.dart';
 import 'package:swapgo/modules/navbar_tabs/profile_screen.dart';
 import 'package:swapgo/modules/navbar_tabs/swap_screen.dart';
+import 'package:swapgo/modules/profile_details/profile_details.dart';
 
 class MainScreenController extends GetxController {
   // Selected index for BottomNavigationBar
@@ -19,7 +20,7 @@ class MainScreenController extends GetxController {
     const HomeScreen(),
     const FavouriteScreen(),
     const SwapScreen(),
-    ProfileScreen(),
+    UserDetailsScreen(),
   ];
 
   // Method to handle navigation item taps

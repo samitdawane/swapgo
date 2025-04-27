@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:swapgo/controllers/user_controller.dart';
 import 'package:swapgo/core/common/app_colors.dart';
@@ -65,22 +66,29 @@ class LoginScreen extends StatelessWidget {
                       TextFormField(
                         controller: controller.emailController,
                         maxLength: 10,
+                        inputFormatters: [
+                          FilteringTextInputFormatter
+                              .digitsOnly, // Only allow digits
+                          LengthLimitingTextInputFormatter(
+                            10,
+                          ), // Limit to 10 digits
+                        ],
                         decoration: InputDecoration(
                           hintText: 'Phone no.',
+                          counterText: '', // Hides the character counter
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter your valide phone no ';
+                            return 'Please enter your valid phone number';
                           }
                           if (value.trim().length != 10) {
                             return 'Phone number must be exactly 10 digits';
                           }
                           return null;
                         },
-
                         onSaved:
                             (value) => controller.loginModel.update((model) {
                               model?.email = value ?? '';
