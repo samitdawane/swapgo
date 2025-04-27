@@ -4,8 +4,9 @@ import 'package:swapgo/controllers/user_controller.dart';
 import 'package:swapgo/core/common/app_button.dart';
 import 'package:swapgo/core/common/app_colors.dart';
 import 'package:swapgo/core/common/app_fontStyles.dart';
+import 'package:swapgo/core/common/custom_appbar.dart';
 import 'package:swapgo/core/controllers/main_screen_controller.dart';
-import 'package:swapgo/data/models/user_model.dart';
+import 'package:swapgo/data/models/master_json_data.dart';
 import 'package:swapgo/modules/navbar_tabs/profile_screen.dart';
 
 class ProfessionSearchScreen extends StatefulWidget {
@@ -16,9 +17,10 @@ class ProfessionSearchScreen extends StatefulWidget {
 }
 
 class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
+  final UserController userController = Get.find<UserController>();
+
   final TextEditingController _searchController = TextEditingController();
   final MainScreenController mainController = Get.find<MainScreenController>();
-  final UserController userController = Get.find<UserController>();
 
   String _searchText = "";
 
@@ -79,6 +81,8 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                             ? userData.data?.reviewandrating!.first.swap ?? ''
                             : '',
                     'id': userData.data?.id ?? '',
+                    'skillsOwned':
+                        userData.data?.personaldetails?.first.skillowned,
                   };
                 } else {
                   return null;
@@ -95,7 +99,7 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(title: const Text('Search Users by Profession')),
+      appBar: CustomAppBar(title: "Profession Search"),
       body: Column(
         children: [
           Padding(
@@ -224,11 +228,341 @@ class _ProfessionSearchScreenState extends State<ProfessionSearchScreen> {
                                         child: AppButton(
                                           text: 'SWAP',
                                           onPressed: () {
-                                            Get.to(
-                                              () => ProfileScreen(),
-                                              arguments: user['id'],
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                String? selectedOption;
+                                                String? selectedSkill;
+                                                DateTime? selectedDateTime;
+
+                                                List<String> userSkills = [];
+                                                if (user["skillsOwned"] !=
+                                                        null &&
+                                                    user['skillsOwned']
+                                                        .isNotEmpty) {
+                                                  // Split skillsOwned by comma
+                                                  userSkills =
+                                                      user['skillsOwned']
+                                                          .toString()
+                                                          .split(',');
+                                                  print(
+                                                    "User Skills: $userSkills",
+                                                  ); // Output: [Contract Drafting, Corporate Law, Arbitration]
+                                                }
+                                                return StatefulBuilder(
+                                                  builder: (context, setState) {
+                                                    Future<void>
+                                                    _selectDateTime() async {
+                                                      DateTime? pickedDate =
+                                                          await showDatePicker(
+                                                            context: context,
+                                                            initialDate:
+                                                                DateTime.now(),
+                                                            firstDate:
+                                                                DateTime.now(),
+                                                            lastDate: DateTime(
+                                                              2100,
+                                                            ),
+                                                          );
+
+                                                      if (pickedDate != null) {
+                                                        TimeOfDay? pickedTime =
+                                                            await showTimePicker(
+                                                              context: context,
+                                                              initialTime:
+                                                                  TimeOfDay.now(),
+                                                            );
+
+                                                        if (pickedTime !=
+                                                            null) {
+                                                          setState(() {
+                                                            selectedDateTime =
+                                                                DateTime(
+                                                                  pickedDate
+                                                                      .year,
+                                                                  pickedDate
+                                                                      .month,
+                                                                  pickedDate
+                                                                      .day,
+                                                                  pickedTime
+                                                                      .hour,
+                                                                  pickedTime
+                                                                      .minute,
+                                                                );
+                                                          });
+                                                        }
+                                                      }
+                                                    }
+
+                                                    return AlertDialog(
+                                                      backgroundColor:
+                                                          AppColors
+                                                              .backgroundColor,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              20,
+                                                            ),
+                                                      ),
+                                                      title: const Text(
+                                                        'Swap By',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                      content: SingleChildScrollView(
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .monetization_on,
+                                                                  size: 18,
+                                                                  color:
+                                                                      Colors
+                                                                          .orange,
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 4,
+                                                                ),
+                                                                Text(
+                                                                  'Balance: 50', // 👈 Put actual user's coin balance here dynamically
+                                                                  style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            // Radio buttons
+                                                            ListTile(
+                                                              title: const Text(
+                                                                'Knowledge Transfer',
+                                                              ),
+                                                              leading: Radio<
+                                                                String
+                                                              >(
+                                                                value:
+                                                                    'Knowledge Transfer',
+                                                                groupValue:
+                                                                    selectedOption,
+                                                                onChanged: (
+                                                                  value,
+                                                                ) {
+                                                                  setState(() {
+                                                                    selectedOption =
+                                                                        value;
+                                                                  });
+                                                                },
+                                                              ),
+                                                            ),
+                                                            ListTile(
+                                                              title: const Text(
+                                                                'Spend Coins',
+                                                              ),
+                                                              leading: Radio<
+                                                                String
+                                                              >(
+                                                                value:
+                                                                    'Spend Coins',
+                                                                groupValue:
+                                                                    selectedOption,
+                                                                onChanged: (
+                                                                  value,
+                                                                ) {
+                                                                  setState(() {
+                                                                    selectedOption =
+                                                                        value;
+                                                                  });
+                                                                },
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 10,
+                                                            ),
+
+                                                            // Skill Dropdown
+                                                            if (selectedOption ==
+                                                                'Knowledge Transfer') ...[
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              DropdownButtonFormField<
+                                                                String
+                                                              >(
+                                                                decoration: const InputDecoration(
+                                                                  labelText:
+                                                                      'Select Skill',
+                                                                  border:
+                                                                      OutlineInputBorder(),
+                                                                ),
+                                                                value:
+                                                                    selectedSkill,
+                                                                items:
+                                                                    userSkills.map((
+                                                                      skill,
+                                                                    ) {
+                                                                      return DropdownMenuItem(
+                                                                        value:
+                                                                            skill,
+                                                                        child: Text(
+                                                                          skill,
+                                                                        ),
+                                                                      );
+                                                                    }).toList(),
+                                                                onChanged: (
+                                                                  value,
+                                                                ) {
+                                                                  setState(() {
+                                                                    selectedSkill =
+                                                                        value;
+                                                                  });
+                                                                },
+                                                              ),
+                                                            ],
+
+                                                            const SizedBox(
+                                                              height: 15,
+                                                            ),
+                                                            AppButton(
+                                                              text:
+                                                                  selectedDateTime ==
+                                                                          null
+                                                                      ? 'Select Date & Time'
+                                                                      : 'Selected: ${selectedDateTime.toString()}',
+                                                              onPressed: () {
+                                                                _selectDateTime();
+                                                              },
+                                                            ),
+
+                                                            // Date & Time picker button
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+
+                                                            // Send Request button
+                                                            if ((selectedOption ==
+                                                                        'Spend Coins' &&
+                                                                    selectedDateTime !=
+                                                                        null) ||
+                                                                (selectedOption ==
+                                                                        'Knowledge Transfer' &&
+                                                                    selectedDateTime !=
+                                                                        null &&
+                                                                    selectedSkill !=
+                                                                        null))
+                                                              SizedBox(
+                                                                width:
+                                                                    double
+                                                                        .infinity,
+                                                                child: ElevatedButton(
+                                                                  onPressed: () {
+                                                                    List<
+                                                                      Map<
+                                                                        String,
+                                                                        dynamic
+                                                                      >
+                                                                    >
+                                                                    transferDetails = [
+                                                                      user['id'],
+                                                                      {
+                                                                        'usertype':
+                                                                            "Sender",
+                                                                        'swaptype':
+                                                                            selectedOption ==
+                                                                                    "Knowledge Transfer"
+                                                                                ? "1"
+                                                                                : "2",
+                                                                        'swapbuddyid':
+                                                                            user['id'],
+                                                                        'selectedDateTime':
+                                                                            selectedDateTime?.toIso8601String(), // save date properly
+                                                                      },
+                                                                      {
+                                                                        'usertype':
+                                                                            "Receiver",
+                                                                        'swaptype':
+                                                                            selectedOption ==
+                                                                                    "Knowledge Transfer"
+                                                                                ? "1"
+                                                                                : "2",
+                                                                        'swapbuddyid':
+                                                                            "7",
+                                                                        'selectedDateTime':
+                                                                            selectedDateTime?.toIso8601String(), // save date properly
+                                                                      },
+                                                                    ];
+
+                                                                    // Transferdetails(usertype: "",swaptype: "",swapbuddyid: "" ,schaduledate: selectedDateTime?.toIso8601String());
+                                                                    Navigator.pop(
+                                                                      context,
+                                                                    );
+                                                                    // Pass the data to next screen if you want
+                                                                    Get.to(
+                                                                      () =>
+                                                                          ProfileScreen(),
+                                                                      arguments: {
+                                                                        'userId':
+                                                                            user['id'],
+                                                                        'option':
+                                                                            selectedOption,
+                                                                        'skill':
+                                                                            selectedSkill,
+                                                                        'dateTime':
+                                                                            selectedDateTime.toString(),
+                                                                      },
+                                                                    );
+                                                                  },
+                                                                  style: ElevatedButton.styleFrom(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .blue,
+                                                                    padding:
+                                                                        const EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              12,
+                                                                        ),
+                                                                    shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                            12,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                  child: const Text(
+                                                                    'Send Request',
+                                                                    style: TextStyle(
+                                                                      color:
+                                                                          Colors
+                                                                              .white,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
                                             );
                                           },
+
                                           verticalPadding: 8,
                                         ),
                                       ),

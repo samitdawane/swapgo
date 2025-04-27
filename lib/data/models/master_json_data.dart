@@ -8,7 +8,7 @@ class MasterJSONData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -31,20 +31,21 @@ class Data {
   List<Reviewandrating>? reviewandrating;
   List<Transferdetails>? transferdetails;
 
-  Data(
-      {this.id,
-        this.fname,
-        this.lname,
-        this.mobileNo,
-        this.password,
-        this.email,
-        this.dob,
-        this.isActive,
-        this.isProfileComplete,
-        this.personaldetails,
-        this.avatarwithinterest,
-        this.reviewandrating,
-        this.transferdetails});
+  Data({
+    this.id,
+    this.fname,
+    this.lname,
+    this.mobileNo,
+    this.password,
+    this.email,
+    this.dob,
+    this.isActive,
+    this.isProfileComplete,
+    this.personaldetails,
+    this.avatarwithinterest,
+    this.reviewandrating,
+    this.transferdetails,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -121,13 +122,14 @@ class Personaldetails {
   String? description;
   String? achievements;
 
-  Personaldetails(
-      {this.occupation,
-        this.skillowned,
-        this.experience,
-        this.worlink,
-        this.description,
-        this.achievements});
+  Personaldetails({
+    this.occupation,
+    this.skillowned,
+    this.experience,
+    this.worlink,
+    this.description,
+    this.achievements,
+  });
 
   Personaldetails.fromJson(Map<String, dynamic> json) {
     occupation = json['occupation'];
@@ -176,8 +178,13 @@ class Reviewandrating {
   String? comments;
   String? balancecoins;
 
-  Reviewandrating(
-      {this.likes, this.rating, this.swap, this.comments, this.balancecoins});
+  Reviewandrating({
+    this.likes,
+    this.rating,
+    this.swap,
+    this.comments,
+    this.balancecoins,
+  });
 
   Reviewandrating.fromJson(Map<String, dynamic> json) {
     likes = json['likes'];
@@ -203,15 +210,31 @@ class Transferdetails {
   String? swaptype;
   String? swapbuddyid;
   String? schaduledate;
+  String? requestaccaptance;
+  String? isuser1xfer;
+  String? isuser2xfer;
+  String? coinsspent;
 
-  Transferdetails(
-      {this.usertype, this.swaptype, this.swapbuddyid, this.schaduledate});
+  Transferdetails({
+    this.usertype,
+    this.swaptype,
+    this.swapbuddyid,
+    this.schaduledate,
+    this.requestaccaptance,
+    this.isuser1xfer,
+    this.isuser2xfer,
+    this.coinsspent,
+  });
 
   Transferdetails.fromJson(Map<String, dynamic> json) {
     usertype = json['usertype'];
     swaptype = json['swaptype'];
     swapbuddyid = json['swapbuddyid'];
     schaduledate = json['schaduledate'];
+    requestaccaptance = json['requestaccaptance'];
+    isuser1xfer = json['isuser1xfer'];
+    isuser2xfer = json['isuser2xfer'];
+    coinsspent = json['coinsspent'];
   }
 
   Map<String, dynamic> toJson() {
@@ -220,6 +243,10 @@ class Transferdetails {
     data['swaptype'] = this.swaptype;
     data['swapbuddyid'] = this.swapbuddyid;
     data['schaduledate'] = this.schaduledate;
+    data['requestaccaptance'] = this.requestaccaptance;
+    data['isuser1xfer'] = this.isuser1xfer;
+    data['isuser2xfer'] = this.isuser2xfer;
+    data['coinsspent'] = this.coinsspent;
     return data;
   }
 }
