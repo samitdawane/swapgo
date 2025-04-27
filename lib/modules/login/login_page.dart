@@ -93,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                           controller: controller.passwordController,
                           obscureText: !controller.isPasswordVisible.value,
                           decoration: InputDecoration(
-                            labelText: 'Password',
+                            // labelText: 'Password',
                             suffixIcon: IconButton(
                               icon: Icon(
                                 controller.isPasswordVisible.value
